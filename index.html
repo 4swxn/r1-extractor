@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>R1 Extractor</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Internal CSV tool</p>
+          <h1>R1 Extractor</h1>
+        </div>
+        <div class="status-pill" id="overallStatus">
+          <span class="status-dot"></span>
+          Ready
+        </div>
+      </header>
+
+      <section class="workspace" aria-label="R1 extractor workspace">
+        <div class="left-rail">
+          <section class="panel upload-panel" aria-labelledby="uploadTitle">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Inputs</p>
+                <h2 id="uploadTitle">Upload CSV files</h2>
+              </div>
+              <button class="icon-button" id="resetAll" type="button" title="Reset all files" aria-label="Reset all files">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 12a9 9 0 1 0 3-6.7"></path>
+                  <path d="M3 4v6h6"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div class="upload-grid">
+              <article class="dropzone" data-kind="dlr" tabindex="0">
+                <input id="dlrInput" type="file" accept=".csv,text/csv">
+                <div class="drop-icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7z"></path>
+                    <path d="M14 2v5h5"></path>
+                    <path d="M9 14h6"></path>
+                    <path d="M9 18h4"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3>DLR CSV</h3>
+                  <p>Needs R1 plus delivery status.</p>
+                </div>
+                <button class="secondary-button" type="button">Choose file</button>
+                <div class="file-meta" id="dlrMeta">No file selected</div>
+              </article>
+
+              <article class="dropzone" data-kind="blast" tabindex="0">
+                <input id="blastInput" type="file" accept=".csv,text/csv">
+                <div class="drop-icon green">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M4 4h16v16H4z"></path>
+                    <path d="M4 9h16"></path>
+                    <path d="M9 4v16"></path>
+                    <path d="M15 4v16"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3>Blast CSV</h3>
+                  <p>Needs the R1 column to match.</p>
+                </div>
+                <button class="secondary-button" type="button">Choose file</button>
+                <div class="file-meta" id="blastMeta">No file selected</div>
+              </article>
+            </div>
+
+            <div class="notice hidden" id="messageBox" role="status"></div>
+          </section>
+
+          <section class="panel stats-panel" aria-label="Processing summary">
+            <div class="metric">
+              <span>DLR rows</span>
+              <strong id="dlrRows">0</strong>
+            </div>
+            <div class="metric">
+              <span>Blast rows</span>
+              <strong id="blastRows">0</strong>
+            </div>
+            <div class="metric highlight">
+              <span>Unique delivered R1</span>
+              <strong id="matchCount">0</strong>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel results-panel" aria-labelledby="resultsTitle">
+          <div class="panel-heading results-heading">
+            <div>
+              <p class="eyebrow">Output</p>
+              <h2 id="resultsTitle">Matched R1 values</h2>
+            </div>
+            <div class="actions">
+              <button class="icon-button" id="copyResults" type="button" title="Copy results" aria-label="Copy results" disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+              <button class="primary-button" id="downloadResults" type="button" disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 3v12"></path>
+                  <path d="m7 10 5 5 5-5"></path>
+                  <path d="M5 21h14"></path>
+                </svg>
+                Download CSV
+              </button>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <label class="search-field">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.3-4.3"></path>
+              </svg>
+              <input id="searchResults" type="search" placeholder="Search R1" autocomplete="off">
+            </label>
+            <span id="resultLimitLabel">Showing 0</span>
+          </div>
+
+          <div class="result-list" id="resultList" aria-live="polite">
+            <div class="empty-state">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 3v18"></path>
+                <path d="M5 8h14"></path>
+                <path d="M7 13h10"></path>
+                <path d="M9 18h6"></path>
+              </svg>
+              <h3>Waiting for both files</h3>
+              <p>The extracted R1 list will appear here.</p>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
